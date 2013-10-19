@@ -19,7 +19,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 
 USER=ghost              # are you sure you want run it as root?
 DAEMON=/usr/local/bin/forever
-SOURCEDIR=/c/.ghost/
+SOURCEDIR=katalog_z_ghost
 NODE_ENV=production
 FOREVERPARAMS="--minUptime 1000 --spinSleepTime 1000 --append -l forever.log -o out.log -e err.log"
 
