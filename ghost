@@ -1,0 +1,58 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          Ghost bloging platform
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Script starting Ghost in forever mode
+### END INIT INFO
+
+# Do NOT "set -e"
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
+DESC="Ghost bloging platform"
+NAME=ghost
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+USER=ghost              # are you sure you want run it as root?
+DAEMON=/usr/local/bin/forever
+SOURCEDIR=/c/.ghost/
+NODE_ENV=production
+FOREVERPARAMS="--minUptime 1000 --spinSleepTime 1000 --append -l forever.log -o out.log -e err.log"
+
+STARTSTRING="cd "$SOURCEDIR" && sudo -u "$USER" NODE_ENV="$NODE_ENV" "$DAEMON" start "$FOREVERPARAMS" index.js"
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.2-14) to ensure that this file is present
+# and status_of_proc is working.
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+        log_daemon_msg "Starting $DESC"
+        exec echo $STARTSTRING | sh
+        ;;
+  stop)
+        log_daemon_msg "Stopping $DESC"
+        exec sudo -u $USER $DAEMON stop index.js
+        ;;
+
+  status)
+        exec sudo -u $USER $DAEMON list
+       ;;
+
+  *)
+        #echo "Usage: $SCRIPTNAME {start|stop|status}" >&2
+        echo "Usage: $SCRIPTNAME {start|stop}" >&2
+        exit 1
+        ;;
+esac
