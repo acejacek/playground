@@ -48,11 +48,14 @@ case "$1" in
 
   status)
         exec sudo -u $USER $DAEMON list
-       ;;
+        ;;
+  restart)
+        $0 stop
+        $0 start
+        ;;
 
   *)
-        #echo "Usage: $SCRIPTNAME {start|stop|status}" >&2
-        echo "Usage: $SCRIPTNAME {start|stop}" >&2
+        echo "Usage: $SCRIPTNAME {start|stop|restart|status}" >&2
         exit 1
         ;;
 esac
