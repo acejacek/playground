@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#refresh ads blocking list
+
+ad_list_url="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=squid&showintro=0&mimetype=plaintext"
+ad_file="/etc/squid/adlist.acl"
+
+curl -o $ad_file $ad_list_url
