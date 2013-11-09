@@ -6,3 +6,6 @@ ad_list_url="http://pgl.yoyo.org/adservers/serverlist.php?hostformat=squid&showi
 ad_file="/etc/squid/adlist.acl"
 
 curl -o $ad_file $ad_list_url
+
+#restart Squid after refresh.
+/etc/init.d/squid restart
