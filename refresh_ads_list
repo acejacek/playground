@@ -7,5 +7,5 @@ ad_file="/etc/squid/adlist.acl"
 
 curl -o $ad_file $ad_list_url
 
-#restart Squid after refresh.
-/etc/init.d/squid restart
+#reload Squid after refresh.
+/etc/init.d/squid reload
